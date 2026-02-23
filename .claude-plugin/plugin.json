@@ -1,0 +1,14 @@
+{
+  "version": "0.1.0",
+  "name": "literature-review",
+  "description": "A plugin for conducting in-depth literature reviews across multiple academic databases",
+  "author": {
+    "name": "User"
+  },
+  "commands": [],
+  "agents": [],
+  "skills": [
+    "deep-literature-review"
+  ],
+  "hooks": []
+}
