@@ -1,191 +1,210 @@
 ---
 name: Collaboration Review
 description: This skill should be used when the user asks to "复盘", "总结经验", "记录错误", "踩坑了", "做错了", "下次避免", "协作复盘", "工作复盘", "反思", "记录教训", or wants to review and document mistakes, pitfalls, or lessons learned from a collaboration session. Use this skill to systematically analyze what went wrong, why it happened, and how to improve in the future.
-version: 0.1.0
+version: 0.2.0
 ---
 
-# Collaboration Review Skill
+# Collaboration Review Skill (协作复盘 Skill)
 
-Systematically review and document mistakes, pitfalls, and lessons learned from collaboration sessions. The goal is to improve efficiency by avoiding repeated errors.
+系统化复盘协作中的错误、踩坑和成功经验。目标是通过避免重复错误来提高效率。
 
-## When to Use This Skill
+## 触发条件
 
-Use this skill when:
-- User says "复盘" or "做复盘"
-- User mentions something went wrong or suboptimal
-- User expresses dissatisfaction or frustration
-- After completing a significant task, user wants to reflect on the process
-- User asks "下次怎么避免" or "怎么改进"
-- User says "踩坑了" or "犯错了"
+**使用这个 Skill 当：**
+- 用户说"复盘"、"做复盘"
+- 用户提到出了问题或 suboptimal
+- 用户表达不满意或沮丧
+- 完成重要任务后想回顾过程
+- 用户问"下次怎么避免"、"怎么改进"
+- 用户说"踩坑了"、"犯错了"
 
-Do NOT use this skill when:
-- User is just asking casual questions
-- User wants quick information without deep analysis
-- This is the first time working together (no history to review)
+**不要使用当：**
+- 用户只是问简单问题
+- 用户想要快速获取信息
+- 这是第一次合作（没有历史可回顾）
 
-## Overview
+## 标准记录格式（约10行/条）
 
-This skill provides a structured approach to:
+每条记录必须包含以下字段：
 
-1. **Identify issues** - What went wrong or could be improved?
-2. **Analyze root causes** - Why did it happen?
-3. **Extract lessons** - What can we learn?
-4. **Document for future** - Write it down to reference later
-5. **Update guidelines** - Improve collaboration based on insights
+```markdown
+### 🔴 GitHub 授权失败重复尝试 #api #协作 #体验
+- **场景**: GitHub 授权失败后，AI 不断重复尝试相同方法
+- **根本原因**: AI 没有失败检查点机制，只按预设流程执行
+- **错误做法**: gh auth login 失败后再试 → 又失败 → 再试...
+- **正确做法**: 失败1次后主动问"要不要换个方式？"
+- **责任归因**: AI问题（缺乏检查点）
+- **时间**: 2026-02-23 | 项目: literature-review
+```
 
-## Workflow
+### 必须字段说明
 
-### Step 1: Gather Context
+| 字段 | 说明 |
+|------|------|
+| 严重程度 | 🔴高/🟡中/🟢低 |
+| 错误类型标签 | #python #database #api #协作 #沟通 #环境 #模型边界 等 |
+| 场景 | 什么情况下发生的 |
+| 根本原因 | 为什么发生（不是表象） |
+| 错误做法 | 当时做了什么 |
+| 正确做法 | 下次应该怎么做 |
+| 责任归因 | AI问题 / 用户指令不清 / 环境问题 / 模型能力边界 |
+| 时间戳 | YYYY-MM-DD |
+| 项目名 | 项目名称 |
 
-Ask the user clarifying questions if needed:
+## 工作流程
+
+### Step 1: 收集背景
+
+需要时向用户确认：
 - "你想复盘哪个具体的事情？"
 - "有哪些地方你觉得不好的？"
 - "这次协作中你最在意的问题是什么？"
 
-### Step 2: Identify Issues
+### Step 2: 识别问题
 
-Work with user to identify:
-- What went wrong?
-- What was inefficient?
-- What caused frustration?
-- What could be done better?
+与用户一起识别：
+- 什么地方出了问题？
+- 什么效率低下？
+- 什么导致挫折感？
+- 什么可以做得更好？
 
-Categories to consider:
-- **Communication**: misunderstandings, lack of clarity, wrong assumptions
-- **Technical**: tool failures, environment issues, setup problems
-- **Process**: workflow inefficiencies, missing steps, wrong priorities
-- **Expectations**: mismatched expectations, unclear goals
+### Step 3: 分析根因
 
-### Step 3: Analyze Root Causes
+使用 5 Whys 方法深挖：
+- **表象**: 发生了什么？
+- **原因**: 为什么会发生？
+- **根本原因**: 最深层的原因是什么？
 
-For each issue identified, ask:
-- **What happened?** (fact)
-- **Why did it happen?** (cause)
-- **What was the impact?** (consequence)
-- **Who was affected?** (stakeholder)
+### Step 4: 分类记录
 
-Use this framework:
+使用标准格式记录：
 
-```
-Issue: [描述问题]
-原因: [为什么会发生]
-影响: [造成了什么后果]
-改进: [下次怎么避免]
-```
-
-### Step 4: Extract Principles
-
-From the analysis, extract general principles:
-
-**For AI:**
-- What should I do differently?
-- What signals should I watch for?
-- What questions should I ask?
-- When should I stop and check?
-
-**For Human:**
-- What should you tell me directly?
-- What signals should you give?
-- What preferences should you communicate?
-
-### Step 5: Document
-
-Create a review document in the project's `COLLABORATION_REVIEW.md` or a dedicated review file.
-
-Structure:
 ```markdown
-# 协作复盘记录
-
-## 日期
-## 主题
-
-## 做得好的地方 ✅
-
-## 做得不好的地方 ❌
-
-## 问题分析
-### Issue 1
-- 发生了什么
-- 原因分析
-- 改进方案
-
-## 经验原则
-### 给 AI 的建议
-### 给人类的建议
-
-## 下次改进
+### [严重程度] [标题] [错误类型标签]
+- **场景**: [什么情况下发生的]
+- **根本原因**: [为什么发生]
+- **错误做法**: [当时做了什么]
+- **正确做法**: [下次应该怎么做]
+- **责任归因**: [AI问题/用户指令不清/环境问题/模型能力边界]
+- **时间**: [YYYY-MM-DD] | 项目: [项目名]
 ```
 
-### Step 6: Commit to Git
+### Step 5: 成功案例记录
 
-Push the review document to the project's repository so it's preserved for future reference.
+不只记录失败，成功也要记！
 
-## Document Location
+```markdown
+### ✅ 成功案例：多层次文献调研
+- **成功原因**: 用户需求分层明确，先总体后深入
+- **关键决策**: 先搜索 AI 主题，再追问量子 AI，最后细化到量子 ML 算法
+- **可复用策略**:
+  1. 逐层深入，每次聚焦一个子主题
+  2. 用户说"某个方面"时立即深入
+  3. 每次返回结果后问"想了解哪方面"
+- **时间**: 2026-02-23 | 项目: literature-review
+```
 
-Store review documents in:
-- Project root: `COLLABORATION_REVIEW.md`
-- Or: `reviews/YYYY-MM-DD-topic.md`
+### Step 6: 高频错误检测
 
-## Examples
+**机制**: 同类错误出现 ≥ 2 次，标记 ⭐ 高频教训
 
-### Example 1: GitHub Authorization Issue
+```markdown
+### ⭐ 高频教训：授权失败后重复尝试
+- **出现次数**: 2次（2026-02-23 GitHub授权、2026-02-23 GitHub授权）
+- **触发条件**: 任何需要用户授权的操作
+- **预防措施**: 任何授权尝试失败，立即改为手动步骤引导
+- **显示**: 任务开始时置顶显示此警告
+```
 
-**Issue**: GitHub authorization kept failing, AI kept retrying without asking.
+### Step 7: 写入文档
 
-**Analysis**:
-- AI tried same failed method multiple times
-- Didn't ask user for alternative
-- Didn't recognize user's frustration signals
+记录到项目根目录：
+- `COLLABORATION_REVIEW.md` - 所有复盘记录
+- 或 `reviews/YYYY-MM-DD-topic.md` - 单独文件
 
-**Principles**:
-- After 1 failure, offer alternatives
-- Ask "要不要换个方式？"
-- Listen for frustration signals like "你来做"
+### Step 8: 推送到 GitHub
 
-### Example 2: Communication Mismatch
+确保复盘记录同步到远程仓库。
 
-**Issue**: User said one thing, AI understood another.
+## 存储路径（保持不变）
 
-**Analysis**:
-- Ambiguous phrasing
-- AI didn't confirm understanding
-- Didn't ask clarifying questions early
+- 项目根目录: `COLLABORATION_REVIEW.md`
+- 或: `reviews/YYYY-MM-DD-topic.md`
 
-**Principles**:
-- Summarize understanding back to user
-- Ask "你是说...吗？"
-- Confirm before proceeding with assumptions
+## 成功案例模块
 
-## Key Principles Summary
+### 记录成功案例
 
-### AI Should Do
-- Check in after failures: "要不要换个方式？"
-- Ask before assuming: "我理解得对吗？"
-- Set expectations: "这可能需要几分钟"
-- Watch for frustration: user saying "算了" / "直接告诉我"
-- Offer choices: "A. 继续尝试 B. 换个方式 C. 先停一下"
+当协作顺利时，也要记录：
 
-### Human Should Do
-- Say "我不满意" or "我烦了" directly
-- Say "停一停" to interrupt
-- Give explicit preferences upfront
-- Say "直接说步骤" when wanting quick answers
+```markdown
+### ✅ 成功案例：[标题]
+- **成功原因**: [为什么成功]
+- **关键决策**: [哪个关键决策起了作用]
+- **可复用的策略**:
+  1. [具体策略1]
+  2. [具体策略2]
+- **时间**: YYYY-MM-DD | 项目: 项目名
+```
 
-## Integration with Other Skills
+### 成功案例的价值
 
-This skill should be used proactively:
-- After any significant error or issue
-- When user expresses any level of frustration
-- At project milestones for reflection
-- When transitioning between major phases
+- 识别什么有效
+- 建立可复用的模式
+- 为未来提供正向参考
 
-## Additional Resources
+## 高频错误机制
 
-### Reference Files
-- **`references/root_cause_analysis.md`** - Detailed root cause analysis methods
-- **`references/review_templates.md`** - Templates for different review types
-- **`references/communication_signals.md`** - Signals to watch for in communication
+### 检测逻辑
 
-### Scripts
-- **`scripts/extract_issues.py`** - Tool to help extract issues from conversation
-- **`scripts/generate_review.py`** - Generate review document from structured input
+每次记录新错误时：
+1. 检查是否有相同标签的错误已存在
+2. 如果存在，累加计数
+3. 计数 ≥ 2，标记 ⭐ 高频教训
+
+### 置顶显示
+
+当任务开始时：
+1. 读取 COLLABORATION_REVIEW.md
+2. 查找所有 ⭐ 标记的高频教训
+3. 在任务开始时显示警告：
+   ```
+   ⚠️ 高频教训提醒：
+   - 授权失败后不要重复尝试 → 立即询问用户
+   - [其他高频教训...]
+   ```
+
+## 已有记录（不要删除）
+
+### 🔴 GitHub 授权失败重复尝试 #api #协作
+- **场景**: GitHub 授权失败后，AI 不断重复尝试相同方法
+- **根本原因**: AI 没有失败检查点机制，只按预设流程执行
+- **错误做法**: gh auth login 失败后再试 → 又失败 → 再试...
+- **正确做法**: 失败1次后主动问"要不要换个方式？"
+- **责任归因**: AI问题
+- **时间**: 2026-02-23 | 项目: literature-review
+
+---
+
+## 关键原则总结
+
+### AI 应该做的
+- 失败1次后主动问："要不要换个方式？"
+- 定期确认："我理解得对吗？"
+- 设置预期："这可能需要几分钟"
+- 观察挫折信号：用户说"算了" / "直接告诉我"
+- 提供选择："A. 继续尝试 B. 换个方式 C. 先停一下"
+
+### 人类应该做的
+- 直接说"我不满意"或"我烦了"
+- 直接说"停一停"来打断
+- 明确表达偏好
+- 说"直接说步骤"时想要快速答案
+
+## 与其他 Skill 的集成
+
+这个 Skill 应该在以下情况主动使用：
+- 发生任何重要错误或问题
+- 用户表达任何程度的不满
+- 项目里程碑时的反思
+- 主要阶段转换时
